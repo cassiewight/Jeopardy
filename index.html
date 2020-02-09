@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Jeopardy</title>
+	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+	<style>
+
+		*{
+			font-family: 'Libre Baskerville', serif;
+		}
+
+		body {
+			background-image:url("img/logo.jpg");
+			background-size:cover;
+			margin:0 auto;
+		}
+
+		#frontPage {
+			background-image:url("img/logo.jpg");
+			background-size:cover;
+			color:white;
+			font-size:1.3em;
+		}
+
+		/*CLUE*/
+		.clue, .dailyDouble {
+			position:fixed;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background-color:darkblue;
+			text-align:center;
+		}
+		.clueText {
+			width:80%;
+			margin:0 10% 0 10%;
+			position:absolute;
+			top:50%;
+			transform: translate(0, -60%);
+			font-size:60px;
+			color:white;
+			text-align:center;
+		}
+		
+		input, button {
+			background-color:darkblue;
+			border-style:solid;
+			border-radius:4px;
+			border-color:white;
+			text-align:center;
+			color:white;
+		}
+		.nameButton, #correct, #wrong {
+			font-size:20px;
+			padding:5px;
+			margin:5px;
+		}
+
+		/*DAILY DOUBLE*/
+		.dailyDouble {
+			background-image:url(img/daily_double.jpg);
+			background-size:cover;
+		}
+
+		/*TABLE*/
+		table {
+			margin:20px auto;
+			border-collapse:collapse;
+			background-color:darkblue;
+			color:white;
+		}
+		td, th { 
+			height:75px;
+			width:150px;
+			text-align:center;
+			border-style:solid;
+		}
+
+		td {
+			font-size:1.7em;
+		}
+
+		#scores {
+			margin:0 auto;
+			text-align:center;
+		}
+
+		#scores input {
+			border-style:none;
+			font-size:1em;
+			width:75%;
+		}
+
+
+	</style>
+</head>
+	
+
+<body>
+
+	<audio id="dailyDoubleSound">
+  	<source src="audio/daily_double.mp3" type="audio/mp3">
+	</audio>
+
+	<audio id="themeSong">
+	<source src="audio/theme_song.mp3" type="audio/mp3">
+	</audio>
+
+	<!--front page shares the same properties as the clue divs-->
+	<div class="clue" id="frontPage">
+		<h2>Contestants:</h2>
+		<label for="c1">Contestant 1:</label>
+		<input type="text" name="c1" id="c1">
+		<br>
+		<label for="c2">Contestant 2:</label>
+		<input type="text" name="c2" id="c2">
+		<br>
+		<label for="c3">Contestant 3:</label>
+		<input type="text" name="c3" id="c3">
+		<br>
+		<button type="button" id="contestantEnterOk">START</button>
+	</div>
+
+	<!--FINAL CLUE CATEGORY-->
+	<div id="final_category" class="clue" style="display:none">
+		<div class="clueText">
+			Periodic Table of Elements</div>
+		<button type="button" id="final_category_ok_btn">OK</button>
+	</div>
+
+	<!--FINAL CLUE-->
+	<div id="final_clue" class="clue" style="display:none">
+		<div class="clueText">
+			Of the element symbols that don’t match the element’s English name, this element’s symbol is alphabetically 1st?
+		</div>
+	</div>
+
+
+	<table class="selectionTable">
+		<tr>
+			<th>ALL ABOUT THE 'BEUBS'</th>
+			<th>PREMIERED ON AUGUST 27</th>
+			<th>FORWARDS & BACKWARDS</th>
+			<th>KNOW YOUR 'HOOD</th>
+			<th>'WIGHT' SPORTS</th>
+			<th>"MOM" KNOWS BEST</th>
+		</tr>
+		<tr>
+			<td id="q01">$200</td>
+			<td id="q02">$200</td>
+			<td id="q03">$200</td>
+			<td id="q04">$200</td>
+			<td id="q05">$200</td>
+			<td id="q06">$200</td>
+		</tr>
+		<tr>
+			<td id="q07">$400</td>
+			<td id="q08">$400</td>
+			<td id="q09">$400</td>
+			<td id="q10">$400</td>
+			<td id="q11">$400</td>
+			<td id="q12">$400</td>
+		</tr>
+		<tr>
+			<td id="q13">$600</td>
+			<td id="q14">$600</td>
+			<td id="q15">$600</td>
+			<td id="q16">$600</td>
+			<td id="q17">$600</td>
+			<td id="q18">$600</td>
+		</tr>
+		<tr>
+			<td id="q19">$800</td>
+			<td id="q20">$800</td>
+			<td id="q21">$800</td>
+			<td id="q22">$800</td>
+			<td id="q23">$800</td>
+			<td id="q24">$800</td>
+		</tr>
+		<tr>
+			<td id="q25">$1000</td>
+			<td id="q26">$1000</td>
+			<td id="q27">$1000</td>
+			<td id="q28">$1000</td>
+			<td id="q29">$1000</td>
+			<td id="q30">$1000</td>
+		</tr>
+
+	</table>
+	<div id="scores">
+		<table>
+			<tr>
+				<th id="c1Name"></th>
+				<th id ="c2Name"></th>
+				<th id ="c3Name"></th>
+			</tr>
+			<tr>
+				<td>$<input type="text" class id="c1Score" value="0" disabled/></td>
+				<td>$<input type="text" id="c2Score" value="0" disabled/></td>
+				<td>$<input type="text" id="c3Score" value="0" disabled/></td>
+			</tr>
+		</table>
+		<button class="button" id="final_btn">FINAL JEOPARDY</button>
+	</div>
+<body>
+<script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="js/script.js"></script>
+
+
+</html>
+
+
+
